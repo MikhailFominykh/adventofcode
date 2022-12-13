@@ -14,6 +14,18 @@ where
         .collect::<Vec<T>>()
 }
 
+pub fn read_one_per_non_empty_line<T>(file_path: &str) -> Vec<T>
+where
+    T: FromStr,
+    <T as FromStr>::Err: Debug,
+{
+    let s = fs::read_to_string(file_path).unwrap();
+    s.lines()
+        .filter(|line| line.len() > 0)
+        .map(|line| line.parse::<T>().unwrap())
+        .collect::<Vec<T>>()
+}
+
 pub fn map_lines<T>(lines: Lines) -> Vec<T>
 where
     T: FromStr,
